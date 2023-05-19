@@ -22,3 +22,11 @@ export type AppState = {
   quotes: Quote[],
   addQuote: Function
 }
+
+export type QuoteRequestData = {
+    market: string;
+    side: string;
+    to_amount?: string;
+    from_amount?: string;
+}
+  

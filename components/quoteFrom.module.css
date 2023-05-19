@@ -1,0 +1,18 @@
+/* Remove the default arrows on modern browsers */
+.custom-number-input::-webkit-inner-spin-button,
+.custom-number-input::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+
+/* Apply custom styling to the number input arrows */
+.custom-number-input {
+  /* Add your custom styling here */
+  /* For example, you can use background properties to set a custom background color */
+  background-color: #f5f5f5;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 5px;
+  width: 150px;
+}
