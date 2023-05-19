@@ -1,26 +1,23 @@
 'use client';
 
-import { getAllCurrencies, marketCurrencies } from '@/utils';
+import { getAllCurrencies, MARKET_CURRENCIES } from '@/utils';
 import { useCallback, useState } from 'react';
 import QuotesModal from './quotesModal';
 import styles from 'quoteForm.module.css';
-
-export type FormData = {
-    market: string;
-    side: string;
-    to_amount: string;
-    from_amount: string;
-}
-   
+import { fetchQuote, fetchQuotesForCurrency } from '@/api';
+import { Currency, Quote } from '@/types';
+ 
 const QuoteForm: React.FC = () => {
-  const [currency, setCurrency] = useState('btc');
+  const [currency, setCurrency] = useState<Currency>('btc');
   const [side, setSide] = useState('buy');
   const [amount, setAmount] = useState('10');
-  const [currentQuotes, setCurrentQuotes] = useState(undefined);
+  const [currentQuotes, setCurrentQuotes] = useState<Quote[]>();
 
   const handleFormSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    
+    Promise.all(fetchQuotesForCurrency(side as "buy" | "sell", currency, amount)).then((quotes) => {
+      setCurrentQuotes(quotes);
+    })
   };
 
   return (
@@ -38,7 +35,7 @@ const QuoteForm: React.FC = () => {
         <select
           id="currency"
           value={currency}
-          onChange={(e) => setCurrency(e.target.value)} 
+          onChange={(e) => setCurrency(e.target.value as Currency)} 
           className="bg-gray-800 text-gray-300 w-full rounded-md ml-2 px-3 appearance-none py-2 focus:outline-none focus:ring focus:border-blue-300"
         >
           {getAllCurrencies().map((currency) => {
